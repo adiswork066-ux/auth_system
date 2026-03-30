@@ -4,8 +4,12 @@ const express = require("express");
 
 const app = express();
 
+// middleware
 app.use(express.json());
-app.use(cors());
+
+app.use(cors({
+  origin: "*", // later you can restrict to your frontend URL
+}));
 
 // test route
 app.get("/", (req, res) => {
@@ -16,6 +20,9 @@ app.get("/", (req, res) => {
 const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// ✅ IMPORTANT: use dynamic port
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
